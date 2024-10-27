@@ -19,4 +19,50 @@ public class TriangleTests {
         // более лаконичная запись
         Assertions.assertEquals(14.696938456699069, new Triangle(5, 6, 7).calculateArea());
     }
+
+    // hw-3 - проверка, что длина стороны треуголньика не является отрицательной
+    @Test
+    void cannotCreateTriangleWithNegativeSide() {
+        try {
+            new Triangle(-1, 1, 1);
+            Assertions.fail();
+        } catch (IllegalArgumentException exception) {
+            // OK
+        }
+        try {
+            new Triangle(1, -1, 1);
+            Assertions.fail();
+        } catch (IllegalArgumentException exception) {
+            // OK
+        }
+        try {
+            new Triangle(1, 1, -1);
+            Assertions.fail();
+        } catch (IllegalArgumentException exception) {
+            // OK
+        }
+    }
+
+    // hw-3 - проверка нарушения неравенства треугольников
+    @Test
+    void cannotCreateTriangleWithInequalityViolation() {
+        try {
+            new Triangle(3, 1, 1);
+            Assertions.fail();
+        } catch (IllegalArgumentException exception) {
+            // OK
+        }
+        try {
+            new Triangle(1, 3, 1);
+            Assertions.fail();
+        } catch (IllegalArgumentException exception) {
+            // OK
+        }
+        try {
+            new Triangle(1, 1, 3);
+            Assertions.fail();
+        } catch (IllegalArgumentException exception) {
+            // OK
+        }
+    }
 }
