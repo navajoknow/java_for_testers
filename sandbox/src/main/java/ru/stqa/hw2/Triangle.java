@@ -1,5 +1,7 @@
 package ru.stqa.hw2;
 
+import java.util.Objects;
+
 import static java.lang.Math.sqrt;
 
 
@@ -68,5 +70,28 @@ public class Triangle {
         return sqrt(sp * (sp - a) * (sp - b) * (sp - c));
     }
 
+    // hw-4
+    @Override
+    // метод вызывается в объекте, для его сравнения с другим объектом, переданным в качестве параметра метода
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Triangle triangle = (Triangle) o;
+        return (Double.compare(a, triangle.a) == 0 && Double.compare(b, triangle.b) == 0 && Double.compare(c, triangle.c) == 0)
+                // далее самодельная доработка (переопределение) метода equals согласно задаче
+                || (Double.compare(a, triangle.a) == 0 && Double.compare(b, triangle.c) == 0 && Double.compare(c, triangle.b) == 0)
+                || (Double.compare(a, triangle.b) == 0 && Double.compare(b, triangle.a) == 0 && Double.compare(c, triangle.c) == 0)
+                || (Double.compare(a, triangle.b) == 0 && Double.compare(b, triangle.c) == 0 && Double.compare(c, triangle.a) == 0)
+                || (Double.compare(a, triangle.c) == 0 && Double.compare(b, triangle.a) == 0 && Double.compare(c, triangle.b) == 0)
+                || (Double.compare(a, triangle.c) == 0 && Double.compare(b, triangle.b) == 0 && Double.compare(c, triangle.a) == 0);
+    }
+
+    // hw-4
+    @Override
+    public int hashCode() {
+        // return Objects.hash(a, b, c);
+        // упростил по примеру из лекции (т.е. проверка с помощью метода hashCode по существу не осуществляется, т.к. всегда возращается единица):
+        return 1;
+    }
 }
 

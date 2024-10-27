@@ -65,4 +65,12 @@ public class TriangleTests {
             // OK
         }
     }
+
+    // hw-4 - проверка равенства треугольников независимо от порядка длин сторон
+    @Test
+    void testEquality() {
+        var t1 = new Triangle(1,2,3);
+        var t2 = new Triangle(3,1,2);
+        Assertions.assertTrue(t1.equals(t2));
+    }
 }
