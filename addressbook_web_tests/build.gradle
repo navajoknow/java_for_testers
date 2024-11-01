@@ -17,4 +17,10 @@ dependencies {
 
 test {
     useJUnitPlatform()
+    // проверка if на случай, если в конфигурации не указан параметр browser
+    // и его значение, например -Pbrowser=firefox ; если проверки не будет - сборка упадет с ошибкой о том,
+    // что не удается получить значение свойства браузер
+    if (project.hasProperty("browser")) {
+        systemProperty("browser", project.property("browser"))
+    }
 }

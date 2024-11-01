@@ -13,7 +13,8 @@ public class TestBase {
         if (app == null) {
             app = new ApplicationManager();
         }
-        app.init();
+        //для удобства используем системное свойство, которое установили в настройках конфигурации среды разработки
+        app.init(System.getProperty("browser", "chrome"));
     }
 
 }

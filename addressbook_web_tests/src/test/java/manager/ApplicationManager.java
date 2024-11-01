@@ -5,6 +5,7 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 
 // класс, отвечающий за управление приложением
 public class ApplicationManager {
@@ -16,9 +17,16 @@ public class ApplicationManager {
     private GroupHelper groups;
 
 
-    public void init() {
+    public void init(String browser) {
         if (driver == null) {
-            driver = new ChromeDriver();
+            if ("chrome".equals(browser)) {
+                driver = new ChromeDriver();
+            } else if ("firefox".equals(browser)) {
+                driver = new FirefoxDriver();
+            } else {
+                // примеры плейсхолдеров: %s для строки, %d для целого числа, %f для чисел с плавающей точкой
+                throw new IllegalArgumentException(String.format("Unknown browser: %s", browser));
+            }
             Runtime.getRuntime().addShutdownHook(new Thread(driver::quit));
             driver.get("http://localhost/addressbook/");
             driver.manage().window().setSize(new Dimension(1037, 817));
