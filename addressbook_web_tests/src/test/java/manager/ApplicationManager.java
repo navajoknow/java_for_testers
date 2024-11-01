@@ -1,6 +1,5 @@
 package manager;
 
-import model.GroupData;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.NoSuchElementException;
@@ -9,7 +8,13 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 // класс, отвечающий за управление приложением
 public class ApplicationManager {
-    protected static WebDriver driver;
+
+    protected WebDriver driver;
+    // далее ссылки на помощников
+    // LoginHelper - как для логина, так и для логаута
+    private LoginHelper session;
+    private GroupHelper groups;
+
 
     public void init() {
         if (driver == null) {
@@ -17,10 +22,24 @@ public class ApplicationManager {
             Runtime.getRuntime().addShutdownHook(new Thread(driver::quit));
             driver.get("http://localhost/addressbook/");
             driver.manage().window().setSize(new Dimension(1037, 817));
-            driver.findElement(By.name("user")).sendKeys("admin");
-            driver.findElement(By.name("pass")).sendKeys("secret");
-            driver.findElement(By.xpath("//input[@value=\'Login\']")).click();
+            session().login("admin", "secret");
         }
+    }
+
+    public LoginHelper session() {
+        if (session == null) {
+            //образно говоря, помощник при собственном конструировании получает информацию о том,
+            // кто является его менеджером
+            session = new LoginHelper(this);
+        }
+        return session;
+    }
+
+    public GroupHelper groups() {
+        if (groups == null) {
+            groups = new GroupHelper(this);
+        }
+        return groups;
     }
 
     protected boolean isElementPresent(By locator) {
@@ -32,28 +51,4 @@ public class ApplicationManager {
         }
     }
 
-    public void createGroup(GroupData group) {
-        driver.findElement(By.name("new")).click();
-        driver.findElement(By.name("group_name")).sendKeys(group.name());
-        driver.findElement(By.name("group_header")).sendKeys(group.header());
-        driver.findElement(By.name("group_footer")).sendKeys(group.footer());
-        driver.findElement(By.name("submit")).click();
-        driver.findElement(By.linkText("group page")).click();
-    }
-
-    public void openGroupsPage() {
-        if (!isElementPresent(By.name("new"))) {
-            driver.findElement(By.linkText("groups")).click();
-        }
-    }
-
-    public boolean isGroupPresent() {
-        return isElementPresent(By.name("selected[]"));
-    }
-
-    public void deleteGroup() {
-        driver.findElement(By.name("selected[]")).click();
-        driver.findElement(By.name("delete")).click();
-        driver.findElement(By.linkText("group page")).click();
-    }
 }
