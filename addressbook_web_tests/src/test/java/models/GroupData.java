@@ -7,28 +7,29 @@ public final class GroupData {
     private final String header;
     private final String footer;
 
+    // основной конструктор
     public GroupData(String name, String header, String footer) {
         this.name = name;
         this.header = header;
         this.footer = footer;
     }
-
+    // конструктор по умолчанию, вызывающий основной конструктор
     public GroupData() {
         this("", "", "");
     }
 
     public GroupData withName(String name) {
-        // возвращается новый объект, только с name
+        // возвращает новый объект, только с name
         return new GroupData(name, this.header, this.footer);
     }
 
     public GroupData withHeader(String header) {
-        // возвращается новый объект, только с header
+        // возвращает новый объект, только с header
         return new GroupData(this.name, header, this.footer);
     }
 
     public GroupData withFooter(String footer) {
-        // возвращается новый объект, только с footer
+        // возвращает новый объект, только с footer
         return new GroupData(this.name, this.header, footer);
     }
 

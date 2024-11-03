@@ -6,7 +6,7 @@ import org.openqa.selenium.By;
 public class GroupHelper extends HelperBase {
 
     public GroupHelper(ApplicationManager manager) {
-        // класс помощник использует родительский -HelperBase- конструктор как свой собственный
+        // класс-помощник использует родительский -HelperBase- конструктор как свой собственный
         super(manager);
     }
 
@@ -20,41 +20,37 @@ public class GroupHelper extends HelperBase {
         openGroupsPage();
         initGroupCreation();
         fillGroupForm(group);
-        submitGroupCreation();
+        submitCreation();
         returnToGroupsPage();
     }
 
     public void deleteGroup() {
         openGroupsPage();
-        selectGroup();
+        selectItem();
         deleteSelectedGroup();
         returnToGroupsPage();
     }
 
     public void modifyGroup(GroupData modifiedGroup) {
         openGroupsPage();
-        selectGroup();
+        selectItem();
         initGroupModification();
         fillGroupForm(modifiedGroup);
         submitGroupModification();
         returnToGroupsPage();
     }
 
-    private void fillGroupForm(GroupData group) {
+    public void fillGroupForm(GroupData group) {
         type(By.name("group_name"), group.name());
         type(By.name("group_header"), group.header());
         type(By.name("group_footer"), group.footer());
     }
 
-    private void submitGroupCreation() {
-        click(By.name("submit"));
-    }
-
-    private void initGroupCreation() {
+    public void initGroupCreation() {
         click(By.name("new"));
     }
 
-    private void deleteSelectedGroup() {
+    public void deleteSelectedGroup() {
         click(By.name("delete"));
     }
 
@@ -63,19 +59,16 @@ public class GroupHelper extends HelperBase {
         return manager.isElementPresent(By.name("selected[]"));
     }
 
-    private void returnToGroupsPage() {
+    public void returnToGroupsPage() {
         click(By.linkText("group page"));
     }
 
-    private void submitGroupModification() {
+    public void submitGroupModification() {
         click(By.name("update"));
     }
 
-    private void initGroupModification() {
+    public void initGroupModification() {
         click(By.name("edit"));
     }
 
-    private void selectGroup() {
-        click(By.name("selected[]"));
-    }
 }

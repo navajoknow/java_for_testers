@@ -17,4 +17,16 @@ public class HelperBase {
     protected void click(By locator) {
         manager.driver.findElement(locator).click();
     }
+
+    protected void submitCreation() {
+        click(By.name("submit"));
+    }
+
+    protected void selectItem() {
+        click(By.name("selected[]"));
+    }
+
+    protected void goToHomePage() {
+        click(By.linkText("home"));
+    }
 }

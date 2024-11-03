@@ -14,8 +14,8 @@ public class ApplicationManager {
     // далее ссылки на помощников
     // LoginHelper - как для логина, так и для логаута
     private LoginHelper session;
-    private GroupHelper groups;
-
+    private GroupHelper group;
+    private ContactHelper contact;
 
     public void init(String browser) {
         if (driver == null) {
@@ -44,10 +44,17 @@ public class ApplicationManager {
     }
 
     public GroupHelper groups() {
-        if (groups == null) {
-            groups = new GroupHelper(this);
+        if (group == null) {
+            group = new GroupHelper(this);
         }
-        return groups;
+        return group;
+    }
+
+    public ContactHelper contacts() {
+        if (contact == null) {
+            contact = new ContactHelper(this);
+        }
+        return contact;
     }
 
     protected boolean isElementPresent(By locator) {
