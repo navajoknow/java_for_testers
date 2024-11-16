@@ -22,7 +22,7 @@ public class ContactHelper extends HelperBase {
 
     public void deleteContact() {
         selectItem();
-        deleteSelectedContact();
+        deleteSelectedContacts();
         goToHomePage();
     }
 
@@ -49,8 +49,19 @@ public class ContactHelper extends HelperBase {
         return manager.isElementPresent(By.name("selected[]"));
     }
 
-    private void deleteSelectedContact() {
+    private void deleteSelectedContacts() {
         click(By.xpath("//input[@value='Delete']"));
+    }
+
+    public int getCount() {
+        openHomePage();
+        return manager.driver.findElements(By.name("selected[]")).size();
+    }
+
+    public void deleteMultipleContacts() {
+        openHomePage();
+        selectAllItems();
+        deleteSelectedContacts();
     }
 
 }

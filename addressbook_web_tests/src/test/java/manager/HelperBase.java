@@ -32,4 +32,14 @@ public class HelperBase {
         click(By.linkText("home"));
     }
 
+    protected void selectAllItems() {
+        var checkboxes = manager.driver.findElements(By.name("selected[]"));
+        for (var checkbox : checkboxes) {
+            checkbox.click();
+        }
+    }
+
+    public void openHomePage() {
+        click(By.linkText("home"));
+    }
 }

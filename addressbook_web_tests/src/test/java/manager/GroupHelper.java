@@ -73,14 +73,8 @@ public class GroupHelper extends HelperBase {
 
     public void deleteMultipleGroups() {
         openGroupsPage();
-        selectAllGroups();
+        selectAllItems();
         deleteSelectedGroups();
     }
 
-    private void selectAllGroups() {
-        var checkboxes = manager.driver.findElements(By.name("selected[]"));
-        for (var checkbox : checkboxes) {
-            checkbox.click();
-        }
-    }
 }

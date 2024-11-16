@@ -3,61 +3,61 @@ package models;
 import java.util.Objects;
 
 public final class ContactData {
-    private final String First_name;
-    private final String Middle_name;
-    private final String Last_name;
-    private final String Nickname;
-    private final String Title;
-    private final String Company;
-    private final String Address;
-    private final String Home_phone;
-    private final String Mobile;
-    private final String Work_phone;
-    private final String Fax;
-    private final String Email;
-    private final String Email2;
-    private final String Email3;
-    private final String Homepage;
+    private final String first_name;
+    private final String middle_name;
+    private final String last_name;
+    private final String nickname;
+    private final String title;
+    private final String company;
+    private final String address;
+    private final String home_phone;
+    private final String mobile;
+    private final String work_phone;
+    private final String fax;
+    private final String email;
+    private final String email2;
+    private final String email3;
+    private final String homepage;
 
     // основной конструктор
     public ContactData(
-            String First_name,
-            String Middle_name,
-            String Last_name,
-            String Nickname,
+            String first_name,
+            String middle_name,
+            String last_name,
+            String nickname,
             //Photo
-            String Title,
-            String Company,
-            String Address,
+            String title,
+            String company,
+            String address,
             //
-            String Home_phone,
-            String Mobile,
-            String Work_phone,
-            String Fax,
+            String home_phone,
+            String mobile,
+            String work_phone,
+            String fax,
             //
-            String Email,
-            String Email2,
-            String Email3,
-            String Homepage
+            String email,
+            String email2,
+            String email3,
+            String homepage
             //Birthday
             //Anniversary
             //Group
     ) {
-        this.First_name = First_name;
-        this.Middle_name = Middle_name;
-        this.Last_name = Last_name;
-        this.Nickname = Nickname;
-        this.Title = Title;
-        this.Company = Company;
-        this.Address = Address;
-        this.Home_phone = Home_phone;
-        this.Mobile = Mobile;
-        this.Work_phone = Work_phone;
-        this.Fax = Fax;
-        this.Email = Email;
-        this.Email2 = Email2;
-        this.Email3 = Email3;
-        this.Homepage = Homepage;
+        this.first_name = first_name;
+        this.middle_name = middle_name;
+        this.last_name = last_name;
+        this.nickname = nickname;
+        this.title = title;
+        this.company = company;
+        this.address = address;
+        this.home_phone = home_phone;
+        this.mobile = mobile;
+        this.work_phone = work_phone;
+        this.fax = fax;
+        this.email = email;
+        this.email2 = email2;
+        this.email3 = email3;
+        this.homepage = homepage;
     }
 
     // конструктор по умолчанию, вызывающий основной конструктор
@@ -85,81 +85,81 @@ public final class ContactData {
         // возвращает новый объект, только с first_name
         return new ContactData(
                 first_name,
-                this.Middle_name,
-                this.Last_name,
-                this.Nickname,
-                this.Title,
-                this.Company,
-                this.Address,
-                this.Home_phone,
-                this.Mobile,
-                this.Work_phone,
-                this.Fax,
-                this.Email,
-                this.Email2,
-                this.Email3,
-                this.Homepage
+                this.middle_name,
+                this.last_name,
+                this.nickname,
+                this.title,
+                this.company,
+                this.address,
+                this.home_phone,
+                this.mobile,
+                this.work_phone,
+                this.fax,
+                this.email,
+                this.email2,
+                this.email3,
+                this.homepage
         );
     }
 
     public String First_name() {
-        return First_name;
+        return first_name;
     }
 
     public String Middle_name() {
-        return Middle_name;
+        return middle_name;
     }
 
     public String Last_name() {
-        return Last_name;
+        return last_name;
     }
 
     public String Nickname() {
-        return Nickname;
+        return nickname;
     }
 
     public String Title() {
-        return Title;
+        return title;
     }
 
     public String Company() {
-        return Company;
+        return company;
     }
 
     public String Address() {
-        return Address;
+        return address;
     }
 
     public String Home_phone() {
-        return Home_phone;
+        return home_phone;
     }
 
     public String Mobile() {
-        return Mobile;
+        return mobile;
     }
 
     public String Work_phone() {
-        return Work_phone;
+        return work_phone;
     }
 
     public String Fax() {
-        return Fax;
+        return fax;
     }
 
     public String Email() {
-        return Email;
+        return email;
     }
 
     public String Email2() {
-        return Email2;
+        return email2;
     }
 
     public String Email3() {
-        return Email3;
+        return email3;
     }
 
     public String Homepage() {
-        return Homepage;
+        return homepage;
     }
 
     @Override
@@ -167,46 +167,46 @@ public final class ContactData {
         if (obj == this) return true;
         if (obj == null || obj.getClass() != this.getClass()) return false;
         var that = (ContactData) obj;
-        return Objects.equals(this.First_name, that.First_name) &&
-                Objects.equals(this.Middle_name, that.Middle_name) &&
-                Objects.equals(this.Last_name, that.Last_name) &&
-                Objects.equals(this.Nickname, that.Nickname) &&
-                Objects.equals(this.Title, that.Title) &&
-                Objects.equals(this.Company, that.Company) &&
-                Objects.equals(this.Address, that.Address) &&
-                Objects.equals(this.Home_phone, that.Home_phone) &&
-                Objects.equals(this.Mobile, that.Mobile) &&
-                Objects.equals(this.Work_phone, that.Work_phone) &&
-                Objects.equals(this.Fax, that.Fax) &&
-                Objects.equals(this.Email, that.Email) &&
-                Objects.equals(this.Email2, that.Email2) &&
-                Objects.equals(this.Email3, that.Email3) &&
-                Objects.equals(this.Homepage, that.Homepage);
+        return Objects.equals(this.first_name, that.first_name) &&
+                Objects.equals(this.middle_name, that.middle_name) &&
+                Objects.equals(this.last_name, that.last_name) &&
+                Objects.equals(this.nickname, that.nickname) &&
+                Objects.equals(this.title, that.title) &&
+                Objects.equals(this.company, that.company) &&
+                Objects.equals(this.address, that.address) &&
+                Objects.equals(this.home_phone, that.home_phone) &&
+                Objects.equals(this.mobile, that.mobile) &&
+                Objects.equals(this.work_phone, that.work_phone) &&
+                Objects.equals(this.fax, that.fax) &&
+                Objects.equals(this.email, that.email) &&
+                Objects.equals(this.email2, that.email2) &&
+                Objects.equals(this.email3, that.email3) &&
+                Objects.equals(this.homepage, that.homepage);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(First_name, Middle_name, Last_name, Nickname, Title, Company, Address, Home_phone, Mobile, Work_phone, Fax, Email, Email2, Email3, Homepage);
+        return Objects.hash(first_name, middle_name, last_name, nickname, title, company, address, home_phone, mobile, work_phone, fax, email, email2, email3, homepage);
     }
 
     @Override
     public String toString() {
         return "ContactData[" +
-                "First_name=" + First_name + ", " +
-                "Middle_name=" + Middle_name + ", " +
-                "Last_name=" + Last_name + ", " +
-                "Nickname=" + Nickname + ", " +
-                "Title=" + Title + ", " +
-                "Company=" + Company + ", " +
-                "Address=" + Address + ", " +
-                "Home_phone=" + Home_phone + ", " +
-                "Mobile=" + Mobile + ", " +
-                "Work_phone=" + Work_phone + ", " +
-                "Fax=" + Fax + ", " +
-                "Email=" + Email + ", " +
-                "Email2=" + Email2 + ", " +
-                "Email3=" + Email3 + ", " +
-                "Homepage=" + Homepage + ']';
+                "First_name=" + first_name + ", " +
+                "Middle_name=" + middle_name + ", " +
+                "Last_name=" + last_name + ", " +
+                "Nickname=" + nickname + ", " +
+                "Title=" + title + ", " +
+                "Company=" + company + ", " +
+                "Address=" + address + ", " +
+                "Home_phone=" + home_phone + ", " +
+                "Mobile=" + mobile + ", " +
+                "Work_phone=" + work_phone + ", " +
+                "Fax=" + fax + ", " +
+                "Email=" + email + ", " +
+                "Email2=" + email2 + ", " +
+                "Email3=" + email3 + ", " +
+                "Homepage=" + homepage + ']';
     }
 
 }
