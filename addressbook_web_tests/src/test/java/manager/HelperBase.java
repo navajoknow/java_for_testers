@@ -2,8 +2,6 @@ package manager;
 
 import org.openqa.selenium.By;
 
-import java.util.Random;
-
 public class HelperBase {
     protected final ApplicationManager manager;
 
@@ -24,10 +22,6 @@ public class HelperBase {
         click(By.name("submit"));
     }
 
-    protected void selectItem() {
-        click(By.name("selected[]"));
-    }
-
     protected void goToHomePage() {
         click(By.linkText("home"));
     }
@@ -37,9 +31,5 @@ public class HelperBase {
         for (var checkbox : checkboxes) {
             checkbox.click();
         }
-    }
-
-    public void openHomePage() {
-        click(By.linkText("home"));
     }
 }

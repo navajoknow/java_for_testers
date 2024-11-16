@@ -20,9 +20,13 @@ public final class GroupData {
         this("", "", "", "");
     }
 
+    public GroupData withId(String id) {
+        return new GroupData(id, this.name, this.header, this.footer);
+    }
+
     public GroupData withName(String name) {
         // возвращает новый объект, только с name, при этом остальные поля остаются
-        // неизменными (берутся из текущего объекта)
+        // неизменными: берутся из текущего (копируемого) объекта
         return new GroupData(this.id, name, this.header, this.footer);
     }
 
@@ -32,6 +36,10 @@ public final class GroupData {
 
     public GroupData withFooter(String footer) {
         return new GroupData(this.id, this.name, this.header, footer);
+    }
+
+    public String id() {
+        return id;
     }
 
     public String name() {
@@ -51,19 +59,21 @@ public final class GroupData {
         if (obj == this) return true;
         if (obj == null || obj.getClass() != this.getClass()) return false;
         var that = (GroupData) obj;
-        return Objects.equals(this.name, that.name) &&
+        return Objects.equals(this.id, that.id) &&
+                Objects.equals(this.name, that.name) &&
                 Objects.equals(this.header, that.header) &&
                 Objects.equals(this.footer, that.footer);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, header, footer);
+        return Objects.hash(id, name, header, footer);
     }
 
     @Override
     public String toString() {
         return "GroupData[" +
+                "id=" + id + ", " +
                 "name=" + name + ", " +
                 "header=" + header + ", " +
                 "footer=" + footer + ']';

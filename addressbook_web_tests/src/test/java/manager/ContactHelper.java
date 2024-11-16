@@ -22,9 +22,13 @@ public class ContactHelper extends HelperBase {
 
     public void deleteContact() {
         goToHomePage();
-        selectItem();
+        selectContact();
         deleteSelectedContacts();
         goToHomePage();
+    }
+
+    private void selectContact() {
+        click(By.name("selected[]"));
     }
 
     public void fillContactForm(ContactData contact) {
