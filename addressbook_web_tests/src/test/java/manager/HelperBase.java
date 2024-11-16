@@ -2,6 +2,8 @@ package manager;
 
 import org.openqa.selenium.By;
 
+import java.util.Random;
+
 public class HelperBase {
     protected final ApplicationManager manager;
 
@@ -29,4 +31,5 @@ public class HelperBase {
     protected void goToHomePage() {
         click(By.linkText("home"));
     }
+
 }
