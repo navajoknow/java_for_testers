@@ -13,7 +13,10 @@ public class ContactDeletionTests extends TestBase {
         if (!app.contacts().isContactPresent()) {
             app.contacts().createContact(new ContactData());
         }
+        int contactCount = app.contacts().getCount();
         app.contacts().deleteContact();
+        int newGroupCount = app.contacts().getCount();
+        Assertions.assertEquals(contactCount - 1, newGroupCount);
     }
 
     @Test

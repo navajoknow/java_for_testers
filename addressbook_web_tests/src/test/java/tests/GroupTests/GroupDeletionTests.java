@@ -11,7 +11,7 @@ public class GroupDeletionTests extends TestBase {
     public void canDeleteGroup() {
         //при первом обращении к методу groups() помощник (экземпляр GroupHelper) будет проиницализрован
         if (app.groups().getCount() == 0) {
-            app.groups().createGroup(new GroupData("default name", "default header", "default footer"));
+            app.groups().createGroup(new GroupData("id", "name", "header", "footer"));
         }
         int groupCount = app.groups().getCount();
         app.groups().deleteGroup();

@@ -3,34 +3,35 @@ package models;
 import java.util.Objects;
 
 public final class GroupData {
+    private final String id;
     private final String name;
     private final String header;
     private final String footer;
 
     // основной конструктор
-    public GroupData(String name, String header, String footer) {
+    public GroupData(String id, String name, String header, String footer) {
+        this.id = id;
         this.name = name;
         this.header = header;
         this.footer = footer;
     }
     // конструктор по умолчанию, вызывающий основной конструктор
     public GroupData() {
-        this("", "", "");
+        this("", "", "", "");
     }
 
     public GroupData withName(String name) {
-        // возвращает новый объект, только с name
-        return new GroupData(name, this.header, this.footer);
+        // возвращает новый объект, только с name, при этом остальные поля остаются
+        // неизменными (берутся из текущего объекта)
+        return new GroupData(this.id, name, this.header, this.footer);
     }
 
     public GroupData withHeader(String header) {
-        // возвращает новый объект, только с header
-        return new GroupData(this.name, header, this.footer);
+        return new GroupData(this.id, this.name, header, this.footer);
     }
 
     public GroupData withFooter(String footer) {
-        // возвращает новый объект, только с footer
-        return new GroupData(this.name, this.header, footer);
+        return new GroupData(this.id, this.name, this.header, footer);
     }
 
     public String name() {
