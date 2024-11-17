@@ -1,7 +1,11 @@
 package manager;
 
 import models.ContactData;
+import models.GroupData;
 import org.openqa.selenium.By;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ContactHelper extends HelperBase {
 
@@ -20,33 +24,33 @@ public class ContactHelper extends HelperBase {
         goToHomePage();
     }
 
-    public void deleteContact() {
+    public void deleteContact(ContactData contact) {
         goToHomePage();
-        selectContact();
+        selectContact(contact);
         deleteSelectedContacts();
         goToHomePage();
     }
 
-    private void selectContact() {
-        click(By.name("selected[]"));
+    private void selectContact(ContactData contact) {
+        click(By.cssSelector(String.format("input[id = '%s']", contact.id())));
     }
 
     public void fillContactForm(ContactData contact) {
-        type(By.name("firstname"), contact.First_name());
-        type(By.name("middlename"), contact.Middle_name());
-        type(By.name("lastname"), contact.Last_name());
-        type(By.name("nickname"), contact.Nickname());
-        type(By.name("title"), contact.Title());
-        type(By.name("company"), contact.Company());
-        type(By.name("address"), contact.Address());
-        type(By.name("home"), contact.Home_phone());
-        type(By.name("mobile"), contact.Mobile());
-        type(By.name("work"), contact.Work_phone());
-        type(By.name("fax"), contact.Fax());
-        type(By.name("email"), contact.Email());
-        type(By.name("email2"), contact.Email2());
-        type(By.name("email3"), contact.Email3());
-        type(By.name("homepage"), contact.Homepage());
+        type(By.name("firstname"), contact.first_name());
+        type(By.name("middlename"), contact.middle_name());
+        type(By.name("lastname"), contact.last_name());
+        type(By.name("nickname"), contact.nickname());
+        type(By.name("title"), contact.title());
+        type(By.name("company"), contact.company());
+        type(By.name("address"), contact.address());
+        type(By.name("home"), contact.home_phone());
+        type(By.name("mobile"), contact.mobile());
+        type(By.name("work"), contact.work_phone());
+        type(By.name("fax"), contact.fax());
+        type(By.name("email"), contact.email());
+        type(By.name("email2"), contact.email2());
+        type(By.name("email3"), contact.email3());
+        type(By.name("homepage"), contact.homepage());
     }
 
     public boolean isContactPresent() {
@@ -70,6 +74,20 @@ public class ContactHelper extends HelperBase {
         goToHomePage();
     }
 
+    public List<ContactData> getList() {
+        goToHomePage();
+        var contacts = new ArrayList<ContactData>();
+        var trs = manager.driver.findElements(By.cssSelector("tr[name='entry']"));
+        for (var tr : trs) {
+            var checkbox = tr.findElement(By.name("selected[]"));
+            var id = checkbox.getAttribute("id");
+            var tds = tr.findElements(By.cssSelector("td"));
+                var last_name = tds.get(1).getText();
+                var first_name = tds.get(2).getText();
+                contacts.add(new ContactData().withId(id).withLastName(last_name).withFirstName(first_name));
+            }
+        return contacts;
+    }
 }
 
 

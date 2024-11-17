@@ -7,6 +7,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import tests.TestBase;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class GroupCreationTests extends TestBase {
@@ -16,15 +17,18 @@ public class GroupCreationTests extends TestBase {
                 for (var name : List.of("", "group name")) {
                     for (var header : List.of("", "group header")) {
                         for (var footer : List.of("", "group footer")) {
-                            result.add(new GroupData().withName(name).withHeader(header).withFooter(footer));
+                            result.add(new GroupData().
+                                    withName(name).
+                                    withHeader(header).
+                                    withFooter(footer));
                 }
             }
         }
         for (int i = 1; i < 5; i++) {
-            result.add(new GroupData()
-                    .withName(randomString(i * 10))
-                    .withHeader(randomString(i * 10))
-                    .withFooter(randomString(i * 10)));
+            result.add(new GroupData().
+                    withName(randomString(i * 10)).
+                    withHeader(randomString(i * 10)).
+                    withFooter(randomString(i * 10)));
         }
         return result;
     }
@@ -38,19 +42,28 @@ public class GroupCreationTests extends TestBase {
     @MethodSource("groupProvider")
     public void canCreateMultipleGroups(GroupData group) {
         //при первом обращении к методу groups() помощник (экземпляр GroupHelper) будет проиницализрован
-        int groupCount = app.groups().getCount();
+        var oldGroups = app.groups().getList();
         app.groups().createGroup(group);
-        int newGroupCount = app.groups().getCount();
-        Assertions.assertEquals(groupCount + 1, newGroupCount);
+        var newGroups = app.groups().getList();
+        Comparator<GroupData> compareById = (o1, o2) -> {
+            return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
+        };
+        newGroups.sort(compareById);
+
+        var expectedList = new ArrayList<>(oldGroups);
+        // в т.ч. присваиваем группам пустые поля header и footer, чтобы при их сравнениии тест не сообщал о несоответствии
+        expectedList.add(group.withId(newGroups.get(newGroups.size()-1).id()).withHeader("").withFooter(""));
+        expectedList.sort(compareById);
+        Assertions.assertEquals(expectedList, newGroups);
     }
 
     @ParameterizedTest
     @MethodSource("negativeGroupProvider")
     public void canNotCreateGroup(GroupData group) {
-        int groupCount = app.groups().getCount();
+        var oldGroups = app.groups().getList();
         app.groups().createGroup(group);
-        int newGroupCount = app.groups().getCount();
-        Assertions.assertEquals(groupCount, newGroupCount);
+        var newGroups = app.groups().getList();
+        Assertions.assertEquals(oldGroups, newGroups);
     }
 
 }

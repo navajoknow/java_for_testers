@@ -3,6 +3,7 @@ package models;
 import java.util.Objects;
 
 public final class ContactData {
+    private final String id;
     private final String first_name;
     private final String middle_name;
     private final String last_name;
@@ -21,6 +22,7 @@ public final class ContactData {
 
     // основной конструктор
     public ContactData(
+            String id,
             String first_name,
             String middle_name,
             String last_name,
@@ -43,6 +45,7 @@ public final class ContactData {
             //Anniversary
             //Group
     ) {
+        this.id = id;
         this.first_name = first_name;
         this.middle_name = middle_name;
         this.last_name = last_name;
@@ -62,7 +65,7 @@ public final class ContactData {
 
     // конструктор по умолчанию, вызывающий основной конструктор
     public ContactData() {
-        this(
+        this("",
                 "",
                 "",
                 "",
@@ -77,13 +80,33 @@ public final class ContactData {
                 "",
                 "",
                 "",
-                ""
-        );
+                "");
+    }
+
+    public ContactData withId(String id) {
+        // возвращает новый объект, только с id
+        return new ContactData(
+                id,
+                this.first_name,
+                this.middle_name,
+                this.last_name,
+                this.nickname,
+                this.title,
+                this.company,
+                this.address,
+                this.home_phone,
+                this.mobile,
+                this.work_phone,
+                this.fax,
+                this.email,
+                this.email2,
+                this.email3,
+                this.homepage);
     }
 
     public ContactData withFirstName(String first_name) {
-        // возвращает новый объект, только с first_name
         return new ContactData(
+                this.id,
                 first_name,
                 this.middle_name,
                 this.last_name,
@@ -102,63 +125,109 @@ public final class ContactData {
         );
     }
 
-    public String First_name() {
+    public ContactData withMiddleName(String middle_name) {
+        return new ContactData(
+                this.id,
+                this.first_name,
+                middle_name,
+                this.last_name,
+                this.nickname,
+                this.title,
+                this.company,
+                this.address,
+                this.home_phone,
+                this.mobile,
+                this.work_phone,
+                this.fax,
+                this.email,
+                this.email2,
+                this.email3,
+                this.homepage
+        );
+    }
+
+    public ContactData withLastName(String last_name) {
+        return new ContactData(
+                this.id,
+                this.first_name,
+                this.middle_name,
+                last_name,
+                this.nickname,
+                this.title,
+                this.company,
+                this.address,
+                this.home_phone,
+                this.mobile,
+                this.work_phone,
+                this.fax,
+                this.email,
+                this.email2,
+                this.email3,
+                this.homepage
+        );
+    }
+
+    public String id() {
+        return id;
+    }
+
+    public String first_name() {
         return first_name;
     }
 
-    public String Middle_name() {
+    public String middle_name() {
         return middle_name;
     }
 
-    public String Last_name() {
+    public String last_name() {
         return last_name;
     }
 
-    public String Nickname() {
+    public String nickname() {
         return nickname;
     }
 
-    public String Title() {
+    public String title() {
         return title;
     }
 
-    public String Company() {
+    public String company() {
         return company;
     }
 
-    public String Address() {
+    public String address() {
         return address;
     }
 
-    public String Home_phone() {
+    public String home_phone() {
         return home_phone;
     }
 
-    public String Mobile() {
+    public String mobile() {
         return mobile;
     }
 
-    public String Work_phone() {
+    public String work_phone() {
         return work_phone;
     }
 
-    public String Fax() {
+    public String fax() {
         return fax;
     }
 
-    public String Email() {
+    public String email() {
         return email;
     }
 
-    public String Email2() {
+    public String email2() {
         return email2;
     }
 
-    public String Email3() {
+    public String email3() {
         return email3;
     }
 
-    public String Homepage() {
+    public String homepage() {
         return homepage;
     }
 
@@ -167,7 +236,8 @@ public final class ContactData {
         if (obj == this) return true;
         if (obj == null || obj.getClass() != this.getClass()) return false;
         var that = (ContactData) obj;
-        return Objects.equals(this.first_name, that.first_name) &&
+        return Objects.equals(this.id, that.id) &&
+                Objects.equals(this.first_name, that.first_name) &&
                 Objects.equals(this.middle_name, that.middle_name) &&
                 Objects.equals(this.last_name, that.last_name) &&
                 Objects.equals(this.nickname, that.nickname) &&
@@ -186,12 +256,13 @@ public final class ContactData {
 
     @Override
     public int hashCode() {
-        return Objects.hash(first_name, middle_name, last_name, nickname, title, company, address, home_phone, mobile, work_phone, fax, email, email2, email3, homepage);
+        return Objects.hash(id, first_name, middle_name, last_name, nickname, title, company, address, home_phone, mobile, work_phone, fax, email, email2, email3, homepage);
     }
 
     @Override
     public String toString() {
         return "ContactData[" +
+                "Id=" + id + ", " +
                 "First_name=" + first_name + ", " +
                 "Middle_name=" + middle_name + ", " +
                 "Last_name=" + last_name + ", " +
