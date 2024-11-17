@@ -17,6 +17,7 @@ public class ContactHelper extends HelperBase {
     public void createContact(ContactData contact) {
         openContactPage();
         fillContactForm(contact);
+        attachPhoto(contact);
         submitCreation();
         goToHomePage();
     }
@@ -37,7 +38,6 @@ public class ContactHelper extends HelperBase {
         type(By.name("middlename"), contact.middle_name());
         type(By.name("lastname"), contact.last_name());
         type(By.name("nickname"), contact.nickname());
-        attach(By.name("photo"), contact.photo());
         type(By.name("title"), contact.title());
         type(By.name("company"), contact.company());
         type(By.name("address"), contact.address());
@@ -49,6 +49,10 @@ public class ContactHelper extends HelperBase {
         type(By.name("email2"), contact.email2());
         type(By.name("email3"), contact.email3());
         type(By.name("homepage"), contact.homepage());
+    }
+
+    public void attachPhoto(ContactData contact) {
+        attach(By.name("photo"), contact.photo());
     }
 
     public boolean isContactPresent() {
@@ -101,7 +105,7 @@ public class ContactHelper extends HelperBase {
     }
 
     private void initContactModification(ContactData contact) {
-        click(By.linkText(String.format("edit.php?id='%s'", contact.id())));
+        click(By.cssSelector(String.format("a[href='edit.php?id=%s']", contact.id())));
     }
 }
 
