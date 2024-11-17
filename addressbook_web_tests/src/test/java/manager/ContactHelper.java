@@ -1,7 +1,6 @@
 package manager;
 
 import models.ContactData;
-import models.GroupData;
 import org.openqa.selenium.By;
 
 import java.util.ArrayList;
@@ -87,6 +86,23 @@ public class ContactHelper extends HelperBase {
                 contacts.add(new ContactData().withId(id).withLastName(last_name).withFirstName(first_name));
             }
         return contacts;
+    }
+
+    public void modifyContact(ContactData contact, ContactData modifiedContact) {
+        goToHomePage();
+        selectContact(contact);
+        initContactModification();
+        fillContactForm(modifiedContact);
+        submitContactModification();
+        goToHomePage();
+    }
+
+    private void submitContactModification() {
+        click(By.name("update"));
+    }
+
+    private void initContactModification() {
+        click(By.cssSelector("img[title = 'Edit']"));
     }
 }
 
