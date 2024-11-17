@@ -8,6 +8,7 @@ public final class ContactData {
     private final String middle_name;
     private final String last_name;
     private final String nickname;
+    private final String photo;
     private final String title;
     private final String company;
     private final String address;
@@ -27,7 +28,7 @@ public final class ContactData {
             String middle_name,
             String last_name,
             String nickname,
-            //Photo
+            String photo,
             String title,
             String company,
             String address,
@@ -50,6 +51,7 @@ public final class ContactData {
         this.middle_name = middle_name;
         this.last_name = last_name;
         this.nickname = nickname;
+        this.photo = photo;
         this.title = title;
         this.company = company;
         this.address = address;
@@ -80,6 +82,7 @@ public final class ContactData {
                 "",
                 "",
                 "",
+                "",
                 "");
     }
 
@@ -91,6 +94,7 @@ public final class ContactData {
                 this.middle_name,
                 this.last_name,
                 this.nickname,
+                this.photo,
                 this.title,
                 this.company,
                 this.address,
@@ -111,6 +115,7 @@ public final class ContactData {
                 this.middle_name,
                 this.last_name,
                 this.nickname,
+                this.photo,
                 this.title,
                 this.company,
                 this.address,
@@ -132,6 +137,7 @@ public final class ContactData {
                 middle_name,
                 this.last_name,
                 this.nickname,
+                this.photo,
                 this.title,
                 this.company,
                 this.address,
@@ -153,6 +159,29 @@ public final class ContactData {
                 this.middle_name,
                 last_name,
                 this.nickname,
+                this.photo,
+                this.title,
+                this.company,
+                this.address,
+                this.home_phone,
+                this.mobile,
+                this.work_phone,
+                this.fax,
+                this.email,
+                this.email2,
+                this.email3,
+                this.homepage
+        );
+    }
+
+    public ContactData withPhoto(String photo) {
+        return new ContactData(
+                this.id,
+                this.first_name,
+                this.middle_name,
+                this.last_name,
+                this.nickname,
+                photo,
                 this.title,
                 this.company,
                 this.address,
@@ -185,6 +214,10 @@ public final class ContactData {
 
     public String nickname() {
         return nickname;
+    }
+
+    public String photo() {
+        return photo;
     }
 
     public String title() {
@@ -241,6 +274,7 @@ public final class ContactData {
                 Objects.equals(this.middle_name, that.middle_name) &&
                 Objects.equals(this.last_name, that.last_name) &&
                 Objects.equals(this.nickname, that.nickname) &&
+                Objects.equals(this.photo, that.photo) &&
                 Objects.equals(this.title, that.title) &&
                 Objects.equals(this.company, that.company) &&
                 Objects.equals(this.address, that.address) &&
@@ -256,7 +290,7 @@ public final class ContactData {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, first_name, middle_name, last_name, nickname, title, company, address, home_phone, mobile, work_phone, fax, email, email2, email3, homepage);
+        return Objects.hash(id, first_name, middle_name, last_name, nickname, photo, title, company, address, home_phone, mobile, work_phone, fax, email, email2, email3, homepage);
     }
 
     @Override
@@ -267,6 +301,7 @@ public final class ContactData {
                 "Middle_name=" + middle_name + ", " +
                 "Last_name=" + last_name + ", " +
                 "Nickname=" + nickname + ", " +
+                "Photo=" + photo + ", " +
                 "Title=" + title + ", " +
                 "Company=" + company + ", " +
                 "Address=" + address + ", " +

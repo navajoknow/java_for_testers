@@ -1,7 +1,5 @@
 package tests.ContactTests;
-
 import models.ContactData;
-import models.GroupData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import tests.TestBase;
@@ -15,12 +13,12 @@ public class ContactModificationTests extends TestBase {
     @Test
     void canModifyContact() {
         if (app.contacts().getCount() == 0) {
-            app.contacts().createContact(new ContactData());
+            app.contacts().createContact(new ContactData().withPhoto("src/test/resources/images/avatar.png"));
         }
         var oldContacts = app.contacts().getList();
         var rnd = new Random();
         var index = rnd.nextInt(oldContacts.size());
-        var testData = new ContactData().withFirstName("modified first name");
+        var testData = new ContactData().withFirstName("modified_name").withPhoto("src/test/resources/images/avatar_modified.png");
         app.contacts().modifyContact(oldContacts.get(index), testData);
         var newContacts = app.contacts().getList();
         var expectedList = new ArrayList<>(oldContacts);
