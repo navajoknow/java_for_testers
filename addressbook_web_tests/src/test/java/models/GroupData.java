@@ -1,11 +1,21 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Objects;
 
 public final class GroupData {
+
+    @JsonProperty("id")
     private final String id;
+
+    @JsonProperty("name")
     private final String name;
+
+    @JsonProperty("header")
     private final String header;
+
+    @JsonProperty("footer")
     private final String footer;
 
     // основной конструктор
