@@ -24,10 +24,14 @@ dependencies {
 
 test {
     useJUnitPlatform()
-    // проверка if на случай, если в конфигурации не указан параметр browser
-    // и его значение, например -Pbrowser=firefox ; если проверки не будет - сборка упадет с ошибкой о том,
-    // что не удается получить значение свойства браузер
+    // проверяем, была ли передана в Gradle команда с дополнительным свойством -Pbrowser=<value>
+    // и, если да, устанавливаем значение свойства в качестве системного свойства для Java (JVM);
+    // если проверки не будет - сборка упадет с ошибкой о том, что не удается получить значение свойства browser
     if (project.hasProperty("browser")) {
         systemProperty("browser", project.property("browser"))
+    }
+
+    if (project.hasProperty("target")) {
+        systemProperty("target", project.property("target"))
     }
 }

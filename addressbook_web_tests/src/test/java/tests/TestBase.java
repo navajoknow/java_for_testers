@@ -3,18 +3,24 @@ package tests;
 import manager.ApplicationManager;
 import org.junit.jupiter.api.BeforeEach;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Properties;
+
 public class TestBase {
 
     protected static ApplicationManager app;
 
     @BeforeEach
-    public void setUp() {
-        // создаем только один экземпляр для управления
+    public void setUp() throws IOException {
         if (app == null) {
+            var properties = new Properties();
+            properties.load(new FileReader(System.getProperty("target", "local.properties")));
+            // создаем только один экземпляр ApplicationManager для управления
             app = new ApplicationManager();
+            // используем системное свойство, заданное или по умолчанию
+            app.init(System.getProperty("browser", "chrome"), properties);
         }
-        // для удобства используем системное свойство, которое установили в настройках конфигурации среды разработки
-        app.init(System.getProperty("browser", "chrome"));
     }
-
 }

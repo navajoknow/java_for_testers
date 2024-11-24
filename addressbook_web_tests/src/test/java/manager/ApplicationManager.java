@@ -7,6 +7,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
+import java.util.Properties;
+
 // класс, отвечающий за управление приложением
 public class ApplicationManager {
 
@@ -17,7 +19,10 @@ public class ApplicationManager {
     private GroupHelper group;
     private ContactHelper contact;
 
-    public void init(String browser) {
+    private Properties properties;
+
+    public void init(String browser, Properties properties) {
+        this.properties = properties;
         if (driver == null) {
             if ("chrome".equals(browser)) {
                 driver = new ChromeDriver();
@@ -28,15 +33,15 @@ public class ApplicationManager {
                 throw new IllegalArgumentException(String.format("Unknown browser: %s", browser));
             }
             Runtime.getRuntime().addShutdownHook(new Thread(driver::quit));
-            driver.get("http://localhost/addressbook/");
+            driver.get(properties.getProperty("web.baseUrl"));
             driver.manage().window().setSize(new Dimension(1037, 817));
-            session().login("admin", "secret");
+            session().login(properties.getProperty("web.username"), properties.getProperty("web.password"));
         }
     }
 
     public LoginHelper session() {
         if (session == null) {
-            //образно говоря, помощник при собственном конструировании получает информацию о том,
+            // образно говоря, помощник при собственном конструировании получает информацию о том,
             // кто является его менеджером
             session = new LoginHelper(this);
         }
