@@ -1,24 +1,60 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Objects;
 
 public final class ContactData {
+
+    @JsonProperty("id")
     private final String id;
+
+    @JsonProperty("first_name")
     private final String first_name;
+
+    @JsonProperty("middle_name")
     private final String middle_name;
+
+    @JsonProperty("last_name")
     private final String last_name;
+
+    @JsonProperty("nickname")
     private final String nickname;
+
+    @JsonProperty("photo")
     private final String photo;
+
+    @JsonProperty("title")
     private final String title;
+
+    @JsonProperty("company")
     private final String company;
+
+    @JsonProperty("address")
     private final String address;
+
+    @JsonProperty("home_phone")
     private final String home_phone;
+
+    @JsonProperty("mobile")
     private final String mobile;
+
+    @JsonProperty("work_phone")
     private final String work_phone;
+
+    @JsonProperty("fax")
     private final String fax;
+
+    @JsonProperty("email")
     private final String email;
+
+    @JsonProperty("email2")
     private final String email2;
+
+    @JsonProperty("email3")
     private final String email3;
+
+    @JsonProperty("homepage")
     private final String homepage;
 
     // основной конструктор

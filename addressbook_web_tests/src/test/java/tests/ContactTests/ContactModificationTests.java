@@ -1,4 +1,5 @@
 package tests.ContactTests;
+import common.CommonFunctions;
 import models.ContactData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -13,7 +14,7 @@ public class ContactModificationTests extends TestBase {
     @Test
     void canModifyContact() {
         if (app.contacts().getCount() == 0) {
-            app.contacts().createContact(new ContactData().withPhoto(randomFile("src/test/resources/images")));
+            app.contacts().createContact(new ContactData().withPhoto(CommonFunctions.randomFile("src/test/resources/images")));
         }
         var oldContacts = app.contacts().getList();
         var rnd = new Random();

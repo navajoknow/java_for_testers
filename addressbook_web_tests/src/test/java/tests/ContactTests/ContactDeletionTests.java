@@ -1,5 +1,6 @@
 package tests.ContactTests;
 
+import common.CommonFunctions;
 import models.ContactData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -14,7 +15,7 @@ public class ContactDeletionTests extends TestBase {
     public void canDeleteContact() {
         //при первом обращении к методу contacts() помощник (экземпляр ContactHelper) будет проиницализрован
         if (!app.contacts().isContactPresent()) {
-            app.contacts().createContact(new ContactData().withPhoto(randomFile("src/test/resources/images")));
+            app.contacts().createContact(new ContactData().withPhoto(CommonFunctions.randomFile("src/test/resources/images")));
         }
         var oldContacts = app.contacts().getList();
         var rnd = new Random();
@@ -29,8 +30,8 @@ public class ContactDeletionTests extends TestBase {
     @Test
     public  void canDeleteAllContacts() {
         if (app.contacts().getCount() < 2) {
-            app.contacts().createContact(new ContactData().withPhoto(randomFile("src/test/resources/images")));
-            app.contacts().createContact(new ContactData().withPhoto(randomFile("src/test/resources/images")));
+            app.contacts().createContact(new ContactData().withPhoto(CommonFunctions.randomFile("src/test/resources/images")));
+            app.contacts().createContact(new ContactData().withPhoto(CommonFunctions.randomFile("src/test/resources/images")));
         }
         app.contacts().deleteMultipleContacts();
         Assertions.assertEquals(0, app.contacts().getCount());
