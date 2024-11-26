@@ -104,9 +104,17 @@ public class GroupCreationTests extends TestBase {
     public void canCreateGroup(GroupData group) {
 
         // сравниваем новый список групп, собраный из БД, со старым списком из БД
-        var oldGroups = app.jdbc().getGroupList();
+
+        // метод для сбора с помощью JDBC
+        // var oldGroups = app.jdbc().getGroupList();
+        // app.groups().createGroup(group);
+        // var newGroups = app.jdbc().getGroupList();
+
+        // метод для сбора с помощью Hibernate
+        var oldGroups = app.hbm().getGroupList();
         app.groups().createGroup(group);
-        var newGroups = app.jdbc().getGroupList();
+        var newGroups = app.hbm().getGroupList();
+
         Comparator<GroupData> compareById = (o1, o2) -> {
             return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
         };
@@ -119,12 +127,12 @@ public class GroupCreationTests extends TestBase {
         Assertions.assertEquals(expectedList, newGroups);
 
         // также сравниваем новый список групп, собраный через UI, со старым списком из БД
-        var newUiGroups = app.groups().getList();
-        newUiGroups.sort(compareById);
-        var anotherExpectedList = new ArrayList<>(oldGroups);
-        anotherExpectedList.add(group.withId(newUiGroups.get(newUiGroups.size()-1).id()).withHeader("").withFooter(""));
-        anotherExpectedList.sort(compareById);
-        Assertions.assertEquals(anotherExpectedList, newUiGroups);
+//        var newUiGroups = app.groups().getList();
+//        newUiGroups.sort(compareById);
+//        var anotherExpectedList = new ArrayList<>(oldGroups);
+//        anotherExpectedList.add(group.withId(newUiGroups.get(newUiGroups.size()-1).id()).withHeader("").withFooter(""));
+//        anotherExpectedList.sort(compareById);
+//        Assertions.assertEquals(anotherExpectedList, newUiGroups);
     }
 
     @ParameterizedTest

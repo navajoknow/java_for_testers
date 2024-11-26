@@ -6,8 +6,8 @@ public record GroupData (String id, String name, String header, String footer) {
         this("", "", "", "");
     }
 
-    // возвращает новый объект, только с id, при этом остальные поля остаются
-    // неизменными: берутся из текущего (копируемого) объекта
+    // класс record не позволяет менять поля созданных объектов (они final), поэтому мы используются методы, возвращающие новые объекты
+    // с отдельными полями, при этом остальные поля остаются неизменными: берутся из текущего (копируемого) объекта
     public GroupData withId (String id){ return new GroupData(id, this.name, this.header, this.footer); }
 
     public GroupData withName (String name){ return new GroupData(this.id, name, this.header, this.footer); }
