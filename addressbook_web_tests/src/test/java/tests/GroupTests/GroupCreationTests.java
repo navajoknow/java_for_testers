@@ -68,7 +68,14 @@ public class GroupCreationTests extends TestBase {
         return result;
     }
 
-    public static List<GroupData> negativeGroupProvider() {
+    public static List<GroupData> singleRandomGroupProvider() {
+        return List.of(new GroupData()
+                .withName(CommonFunctions.randomString(10))
+                .withHeader(CommonFunctions.randomString(10))
+                .withFooter(CommonFunctions.randomString(10)));
+    }
+
+        public static List<GroupData> negativeGroupProvider() {
         // приложение содержит баг: группа, в имени которой есть символ ' , не создается
         return List.of(new GroupData("", "group name ' ", "", ""));
     }
@@ -90,6 +97,34 @@ public class GroupCreationTests extends TestBase {
         expectedList.add(group.withId(newGroups.get(newGroups.size()-1).id()).withHeader("").withFooter(""));
         expectedList.sort(compareById);
         Assertions.assertEquals(expectedList, newGroups);
+    }
+
+    @ParameterizedTest
+    @MethodSource("singleRandomGroupProvider")
+    public void canCreateGroup(GroupData group) {
+
+        // сравниваем новый список групп, собраный из БД, со старым списком из БД
+        var oldGroups = app.jdbc().getGroupList();
+        app.groups().createGroup(group);
+        var newGroups = app.jdbc().getGroupList();
+        Comparator<GroupData> compareById = (o1, o2) -> {
+            return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
+        };
+        newGroups.sort(compareById);
+        var maxId = newGroups.get(newGroups.size()-1).id();
+
+        var expectedList = new ArrayList<>(oldGroups);
+        expectedList.add(group.withId(maxId));
+        expectedList.sort(compareById);
+        Assertions.assertEquals(expectedList, newGroups);
+
+        // также сравниваем новый список групп, собраный через UI, со старым списком из БД
+        var newUiGroups = app.groups().getList();
+        newUiGroups.sort(compareById);
+        var anotherExpectedList = new ArrayList<>(oldGroups);
+        anotherExpectedList.add(group.withId(newUiGroups.get(newUiGroups.size()-1).id()).withHeader("").withFooter(""));
+        anotherExpectedList.sort(compareById);
+        Assertions.assertEquals(anotherExpectedList, newUiGroups);
     }
 
     @ParameterizedTest

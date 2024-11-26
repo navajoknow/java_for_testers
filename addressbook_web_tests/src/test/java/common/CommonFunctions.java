@@ -5,6 +5,7 @@ import java.nio.file.Paths;
 import java.util.Random;
 
 public class CommonFunctions {
+
     public static String randomString(int n) {
         var rnd = new Random();
         var result = "";

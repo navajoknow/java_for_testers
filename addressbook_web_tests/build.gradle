@@ -20,6 +20,8 @@ dependencies {
     implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.14.2'
     // для xml
     implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.18.1'
+    // MySQL Connector с использованием JDBC
+    implementation 'com.mysql:mysql-connector-j:9.1.0'
 }
 
 test {
