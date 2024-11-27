@@ -28,18 +28,44 @@ public class HibernateHelper extends HelperBase {
         List<GroupData> result = new ArrayList<>();
         for (var record : records) {
             // из базы забираем id с типом int, а в GroupData это String, поэтому нужно строковое представление
-            result.add(convert(record));
+            result.add(convertToGroupData(record));
         }
         return result;
     }
 
-    private static GroupData convert(GroupRecord record) {
+    private static GroupData convertToGroupData(GroupRecord record) {
         return new GroupData("" + record.id, record.name, record.header, record.footer);
+    }
+
+    private static GroupRecord convertToGroupRecord(GroupData data) {
+        var id = data.id();
+        if ("".equals(id)) {
+            id = "0";
+        }
+        return new GroupRecord(Integer.parseInt(id), data.name(), data.header(), data.footer());
     }
 
     public List<GroupData> getGroupList() {
         return convertList(sessionFactory.fromSession(session -> {
+            // запрос выбирает все строки из таблицы, которая соответствует сущности GroupRecord
             return session.createQuery("from GroupRecord", GroupRecord.class).list();
         }));
     }
+
+    public long getGroupCount() {
+        return sessionFactory.fromSession(session -> {
+            return session.createQuery("select count (*) from GroupRecord", Long.class).getSingleResult();
+        });
+    }
+
+    public void createGroup(GroupData groupData) {
+        sessionFactory.inSession(session -> {
+            // открываем транзакцию, выполняем операцию и завершаем транзакцию
+            session.getTransaction().begin();
+            // метод используется для сохранения объекта в базу данных
+            session.persist(convertToGroupRecord(groupData));
+            session.getTransaction().commit();
+        });
+    }
+
 }

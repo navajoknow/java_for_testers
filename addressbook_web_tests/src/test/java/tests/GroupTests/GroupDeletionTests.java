@@ -12,15 +12,16 @@ public class GroupDeletionTests extends TestBase {
 
     @Test
     public void canDeleteGroup() {
-        //при первом обращении к методу groups() помощник (экземпляр GroupHelper) будет проиницализрован
-        if (app.groups().getCount() == 0) {
-            app.groups().createGroup(new GroupData());
+        // при первом обращении к методу groups() помощник (экземпляр GroupHelper) будет проиницализрован
+        // проверяемую функцию (удаление группы) осуществляем через GUI, остальное для ускорения - через БД
+        if (app.hbm().getGroupCount() == 0) {
+            app.hbm().createGroup(new GroupData("","name", "header","footer"));
         }
-        var oldGroups = app.groups().getList();
+        var oldGroups = app.hbm().getGroupList();
         var rnd = new Random();
         var index = rnd.nextInt(oldGroups.size());
         app.groups().deleteGroup(oldGroups.get(index));
-        var newGroups = app.groups().getList();
+        var newGroups = app.hbm().getGroupList();
         var expectedLists = new ArrayList<>(oldGroups);
         expectedLists.remove(index);
         Assertions.assertEquals(expectedLists, newGroups);
@@ -28,12 +29,12 @@ public class GroupDeletionTests extends TestBase {
 
     @Test
     public  void canDeleteAllGroups() {
-        if (app.groups().getCount() < 2) {
-            app.groups().createGroup(new GroupData());
-            app.groups().createGroup(new GroupData());
+        if (app.hbm().getGroupCount() < 2) {
+            app.hbm().createGroup(new GroupData());
+            app.hbm().createGroup(new GroupData());
         }
         app.groups().deleteMultipleGroups();
-        Assertions.assertEquals(0, app.groups().getCount());
+        Assertions.assertEquals(0, app.hbm().getGroupCount());
     }
 
 }
