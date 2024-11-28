@@ -28,10 +28,10 @@ public class GroupCreationTests extends TestBase {
 //                for (var name : List.of("", "group name")) {
 //                    for (var header : List.of("", "group header")) {
 //                        for (var footer : List.of("", "group footer")) {
-//                            result.add(new GroupData().
-//                                    withName(name).
-//                                    withHeader(header).
-//                                    withFooter(footer));
+//                            result.add(new GroupData()
+//                                    .withName(name)
+//                                    .withHeader(header)
+//                                    .withFooter(footer));
 //                }
 //            }
 //        }
@@ -103,7 +103,7 @@ public class GroupCreationTests extends TestBase {
     @MethodSource("singleRandomGroupProvider")
     public void canCreateGroup(GroupData group) {
 
-        // сравниваем новый список групп, собраный из БД, со старым списком из БД
+        // сравниваем новый список групп, собраный из БД, с ожидаемым списком из БД
 
         // метод для сбора с помощью JDBC
         // var oldGroups = app.jdbc().getGroupList();
@@ -115,6 +115,7 @@ public class GroupCreationTests extends TestBase {
         app.groups().createGroup(group);
         var newGroups = app.hbm().getGroupList();
 
+        // сортировка по возрастанию
         Comparator<GroupData> compareById = (o1, o2) -> {
             return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
         };
@@ -126,13 +127,11 @@ public class GroupCreationTests extends TestBase {
         expectedList.sort(compareById);
         Assertions.assertEquals(expectedList, newGroups);
 
-        // также сравниваем новый список групп, собраный через UI, со старым списком из БД
-//        var newUiGroups = app.groups().getList();
-//        newUiGroups.sort(compareById);
-//        var anotherExpectedList = new ArrayList<>(oldGroups);
-//        anotherExpectedList.add(group.withId(newUiGroups.get(newUiGroups.size()-1).id()).withHeader("").withFooter(""));
-//        anotherExpectedList.sort(compareById);
-//        Assertions.assertEquals(anotherExpectedList, newUiGroups);
+        // также сравниваем новый список групп, собраный через UI, с ожидаемым списком из БД
+        var newUiGroups = app.groups().getList();
+        newUiGroups.sort(compareById);
+        expectedList.set(expectedList.size()-1, newUiGroups.get(newUiGroups.size()-1));
+        Assertions.assertEquals(expectedList, newUiGroups);
     }
 
     @ParameterizedTest
