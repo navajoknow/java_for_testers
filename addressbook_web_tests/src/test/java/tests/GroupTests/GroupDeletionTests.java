@@ -30,8 +30,9 @@ public class GroupDeletionTests extends TestBase {
     @Test
     public  void canDeleteAllGroups() {
         if (app.hbm().getGroupCount() < 2) {
-            app.hbm().createGroup(new GroupData());
-            app.hbm().createGroup(new GroupData());
+            for (int i = 0; i < 2; i++) {
+                app.hbm().createGroup(new GroupData());
+            }
         }
         app.groups().deleteMultipleGroups();
         Assertions.assertEquals(0, app.hbm().getGroupCount());

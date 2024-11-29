@@ -14,14 +14,14 @@ public class ContactDeletionTests extends TestBase {
     @Test
     public void canDeleteContact() {
         //при первом обращении к методу contacts() помощник (экземпляр ContactHelper) будет проиницализрован
-        if (!app.contacts().isContactPresent()) {
-            app.contacts().createContact(new ContactData().withPhoto(CommonFunctions.randomFile("src/test/resources/images")));
+        if (app.hbm().getContactCount() == 0) {
+            app.hbm().createContact(new ContactData().withPhoto(CommonFunctions.randomFile("src/test/resources/images")));
         }
-        var oldContacts = app.contacts().getList();
+        var oldContacts = app.hbm().getContactList();
         var rnd = new Random();
         var index = rnd.nextInt(oldContacts.size());
         app.contacts().deleteContact(oldContacts.get(index));
-        var newContacts = app.contacts().getList();
+        var newContacts = app.hbm().getContactList();
         var expectedContacts = new ArrayList<>(oldContacts);
         expectedContacts.remove(index);
         Assertions.assertEquals(expectedContacts, newContacts);
@@ -29,12 +29,13 @@ public class ContactDeletionTests extends TestBase {
 
     @Test
     public  void canDeleteAllContacts() {
-        if (app.contacts().getCount() < 2) {
-            app.contacts().createContact(new ContactData().withPhoto(CommonFunctions.randomFile("src/test/resources/images")));
-            app.contacts().createContact(new ContactData().withPhoto(CommonFunctions.randomFile("src/test/resources/images")));
+        if (app.hbm().getContactCount() < 2) {
+            for (int i = 0; i < 2; i++) {
+                app.hbm().createContact(new ContactData().withPhoto(CommonFunctions.randomFile("src/test/resources/images")));
+            }
         }
         app.contacts().deleteMultipleContacts();
-        Assertions.assertEquals(0, app.contacts().getCount());
+        Assertions.assertEquals(0, app.hbm().getContactCount());
     }
 
 }
