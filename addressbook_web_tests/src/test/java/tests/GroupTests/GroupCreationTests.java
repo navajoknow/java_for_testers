@@ -83,18 +83,21 @@ public class GroupCreationTests extends TestBase {
     @ParameterizedTest
     @MethodSource("groupProvider")
     public void canCreateMultipleGroups(GroupData group) {
+
         // при первом обращении к методу groups() помощник (экземпляр GroupHelper) будет проиницализрован
-        var oldGroups = app.groups().getList();
+        // метод для сбора с помощью JDBC
+        var oldGroups = app.jdbc().getGroupList();
         app.groups().createGroup(group);
-        var newGroups = app.groups().getList();
+        var newGroups = app.jdbc().getGroupList();
+
+        // сортировка по возрастанию
         Comparator<GroupData> compareById = (o1, o2) -> {
             return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
         };
-        newGroups.sort(compareById);
 
+        newGroups.sort(compareById);
         var expectedList = new ArrayList<>(oldGroups);
-        // в т.ч. присваиваем группам пустые поля header и footer, чтобы при их сравнениии тест не сообщал о несоответствии
-        expectedList.add(group.withId(newGroups.get(newGroups.size()-1).id()).withHeader("").withFooter(""));
+        expectedList.add(group.withId(newGroups.get(newGroups.size()-1).id()));
         expectedList.sort(compareById);
         Assertions.assertEquals(expectedList, newGroups);
     }
@@ -115,23 +118,27 @@ public class GroupCreationTests extends TestBase {
         app.groups().createGroup(group);
         var newGroups = app.hbm().getGroupList();
 
-        // сортировка по возрастанию
         Comparator<GroupData> compareById = (o1, o2) -> {
             return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
         };
-        newGroups.sort(compareById);
-        var maxId = newGroups.get(newGroups.size()-1).id();
 
+        newGroups.sort(compareById);
         var expectedList = new ArrayList<>(oldGroups);
-        expectedList.add(group.withId(maxId));
+        expectedList.add(group.withId(newGroups.get(newGroups.size()-1).id()));
         expectedList.sort(compareById);
         Assertions.assertEquals(expectedList, newGroups);
 
         // также сравниваем новый список групп, собраный через UI, с ожидаемым списком из БД
-        var newUiGroups = app.groups().getList();
-        newUiGroups.sort(compareById);
-        expectedList.set(expectedList.size()-1, newUiGroups.get(newUiGroups.size()-1));
-        Assertions.assertEquals(expectedList, newUiGroups);
+        var uiGroups = app.groups().getList();
+        uiGroups.sort(compareById);
+        expectedList.set(expectedList.size()-1, uiGroups.get(uiGroups.size()-1));
+        // костыль из цикла: обеспечиваем соответствие по полям header и footer
+        for (int i = 0; i < uiGroups.size(); i++) {
+            var testHeader = expectedList.get(i).header();
+            var testFooter = expectedList.get(i).footer();
+            uiGroups.set(i, uiGroups.get(i).withHeader(testHeader).withFooter(testFooter));
+        }
+        Assertions.assertEquals(expectedList, uiGroups);
     }
 
     @ParameterizedTest

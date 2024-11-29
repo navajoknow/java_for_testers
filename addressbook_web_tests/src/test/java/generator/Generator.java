@@ -71,7 +71,6 @@ public class Generator {
         for (int i = 0; i < count; i++) {
             result.add(new ContactData()
                     .withFirstName(CommonFunctions.randomString(i * 10))
-                    .withMiddleName(CommonFunctions.randomString(i * 10))
                     .withLastName(CommonFunctions.randomString(i * 10))
                     .withPhoto(CommonFunctions.randomFile("src/test/resources/images")));
         }
@@ -81,8 +80,6 @@ public class Generator {
     private void save(Object data) throws IOException {
         if ("json".equals(format)) {
             // сериализация с помощью библиотеки Jackson
-            // Примечание: в классах models пришлось к параметрам добавить аннотацию @JsonProperty, хотя, по идее, должно
-            // работать и без ее использования (но почему-то не работает)
             ObjectMapper mapper = new ObjectMapper();
             // метод для представления содержания json файла в удобном для чтения виде, а не одной строкой
             mapper.enable(SerializationFeature.INDENT_OUTPUT);
