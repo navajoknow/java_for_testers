@@ -48,12 +48,14 @@ public class ContactDeletionTests extends TestBase {
 
         contactListInGroup.sort(compareById);
         var newContactWithId = contactListInGroup.get(contactListInGroup.size()-1);
+
         app.contacts().removeContactFromGroup(newContactWithId, group);
+
         var newContactListInGroup = app.hbm().getContactsInGroup(group);
         newContactListInGroup.sort(compareById);
         var expectedList = new ArrayList<>(contactListInGroup);
-        expectedList.sort(compareById);
         expectedList.remove(expectedList.size()-1);
+        Assertions.assertEquals(expectedList, newContactListInGroup);
     }
 
     @Test
