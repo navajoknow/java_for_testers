@@ -1,6 +1,7 @@
 package tests;
 
 import manager.ApplicationManager;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 
 import java.io.FileNotFoundException;
@@ -22,5 +23,11 @@ public class TestBase {
             // используем системное свойство, заданное или по умолчанию
             app.init(System.getProperty("browser", "chrome"), properties);
         }
+    }
+
+    // проверка из лекции 6.5 "С чем не может справиться ORM: испорченные связи"
+    @AfterEach
+    void testDatabaseConsistency() {
+        app.jdbc().checkConsistency();
     }
 }

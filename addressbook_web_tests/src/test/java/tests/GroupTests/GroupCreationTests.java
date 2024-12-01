@@ -108,12 +108,12 @@ public class GroupCreationTests extends TestBase {
 
         // сравниваем новый список групп, собраный из БД, с ожидаемым списком из БД
 
-        // метод для сбора с помощью JDBC
+        // сбор с помощью JDBC
         // var oldGroups = app.jdbc().getGroupList();
         // app.groups().createGroup(group);
         // var newGroups = app.jdbc().getGroupList();
 
-        // метод для сбора с помощью Hibernate
+        // сбор с помощью Hibernate
         var oldGroups = app.hbm().getGroupList();
         app.groups().createGroup(group);
         var newGroups = app.hbm().getGroupList();

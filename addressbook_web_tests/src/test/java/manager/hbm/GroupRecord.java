@@ -1,11 +1,9 @@
 package manager.hbm;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.util.Date;
+import java.util.List;
 
 // класс-посредник, Data Transfer Object (DTO-класс), который мы используем, потому что Hibernate не работает
 // с record (в последнем поля являются неизменяемыми (final))
@@ -32,6 +30,15 @@ public class GroupRecord {
     // добавить это поле в класс-посредник; при создании объета в данное поле попадет текущая дата и время
     @Column(name = "deprecated")
     public Date deprecated = new Date();
+
+    @ManyToMany
+    // промежуточная таблица, которая реализует связь "многие ко многим"
+    @JoinTable (name = "address_in_groups",
+            // столбец, который ссылается на текущую сущность (группу)
+            joinColumns = @JoinColumn (name = "group_id"),
+            // столбец, который ссылается на связанную сущность (контакт)
+            inverseJoinColumns = @JoinColumn (name = "id"))
+    public List<ContactRecord> contacts;
 
     public GroupRecord() {
     }

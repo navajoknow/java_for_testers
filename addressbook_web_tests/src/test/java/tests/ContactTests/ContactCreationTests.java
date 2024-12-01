@@ -7,6 +7,7 @@ import common.CommonFunctions;
 import models.ContactData;
 import models.GroupData;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import tests.TestBase;
@@ -116,6 +117,38 @@ public class ContactCreationTests extends TestBase {
             uiContacts.set(i, uiContacts.get(i).withPhoto(testPhoto));
         }
         Assertions.assertEquals(expectedList, uiContacts);
+    }
+
+    @Test
+    public void canCreateContactInGroup() {
+        var contact = new ContactData()
+                .withFirstName(CommonFunctions.randomString(10))
+                .withLastName(CommonFunctions.randomString(10))
+                .withPhoto(CommonFunctions.randomFile("src/test/resources/images"));
+
+        if (app.hbm().getGroupCount() == 0) {
+            app.hbm().createGroup(new GroupData("","name", "header","footer"));
+        }
+
+        var group = app.hbm().getGroupList().get(0);
+
+        var previousContactListInGroup = app.hbm().getContactsInGroup(group);
+        app.contacts().createContactInGroup(contact, group);
+        var newContactListInGroup = app.hbm().getContactsInGroup(group);
+
+        Comparator<ContactData> compareById = (o1, o2) -> {
+            return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
+        };
+
+        newContactListInGroup.sort(compareById);
+        var expectedList = new ArrayList<>(previousContactListInGroup);
+        expectedList.add(contact.withId(newContactListInGroup.get(newContactListInGroup.size()-1).id()));
+        expectedList.sort(compareById);
+
+        var testPhoto = expectedList.get(expectedList.size()-1).photo();
+        var newContactWithSamePhoto = newContactListInGroup.get(expectedList.size()-1).withPhoto(testPhoto);
+        newContactListInGroup.set(newContactListInGroup.size()-1, newContactWithSamePhoto);
+        Assertions.assertEquals(expectedList, newContactListInGroup);
     }
 
 }
