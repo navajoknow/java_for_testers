@@ -1,6 +1,7 @@
 package manager;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 import java.nio.file.Paths;
 
@@ -34,9 +35,13 @@ public class HelperBase {
     }
 
     protected void selectAllItems() {
-        var checkboxes = manager.driver.findElements(By.name("selected[]"));
-        for (var checkbox : checkboxes) {
-            checkbox.click();
-        }
+        //        var checkboxes = manager.driver.findElements(By.name("selected[]"));
+        //        for (var checkbox : checkboxes) {
+        //            checkbox.click();
+        //      можно написать в стиле функционального программирования
+        manager.driver
+                .findElements(By.name("selected[]"))
+                .forEach(WebElement::click);
     }
+
 }

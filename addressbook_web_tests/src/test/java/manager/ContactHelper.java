@@ -34,12 +34,28 @@ public class ContactHelper extends HelperBase {
         goToHomePage();
     }
 
+    public void putContactToGroup(ContactData contact, GroupData group) {
+        goToHomePage();
+        selectContact(contact);
+        chooseGroupToAddContact(group);
+        addContactToGroup();
+        goToHomePage();
+    }
+
+    private void chooseGroupToAddContact(GroupData group) {
+        new Select(manager.driver.findElement(By.name("to_group"))).selectByValue(group.id());
+    }
+
+    private void addContactToGroup() {
+        click(By.cssSelector("input[type='submit'][value='Add to']"));
+    }
+
     private void selectGroup(GroupData group) {
         new Select(manager.driver.findElement(By.name("new_group"))).selectByValue(group.id());
     }
 
     private void selectContact(ContactData contact) {
-        click(By.cssSelector(String.format("input[id = '%s']", contact.id())));
+        click(By.cssSelector(String.format("input[id='%s'][name='selected[]']", contact.id())));
     }
 
     public void fillContactForm(ContactData contact) {
@@ -127,6 +143,7 @@ public class ContactHelper extends HelperBase {
     private void initContactModification(ContactData contact) {
         click(By.cssSelector(String.format("a[href='edit.php?id=%s']", contact.id())));
     }
+
 }
 
 

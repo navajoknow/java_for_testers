@@ -3,18 +3,32 @@ package common;
 import java.io.File;
 import java.nio.file.Paths;
 import java.util.Random;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class CommonFunctions {
 
+//   public static String randomString(int n) {
+//        var rnd = new Random();
+//        var result = "";
+//        for (int i = 0; i < n; i++) {
+//            // 'a' (символ в одинарных ковычках) интерпретируется как число 97 (номер символа в Unicode), а после
+//            // суммирования получившееся число преобразуется обратно в символ через оператор приведения типов - (char)
+//            result = result + (char)('a' + rnd.nextInt(26));
+//        }
+//        return result;
+//    }
+
+    // реализация этого же метода, но в стиле функционального программирования
     public static String randomString(int n) {
         var rnd = new Random();
-        var result = "";
-        for (int i = 0; i < n; i++) {
-            // символ 'a' (одинарные ковычки) интерпретируется как число 97 (номер символа в Unicode), а после
-            // суммирования получившееся число преобразуется обратно в символ через оператор приведения типов - (char)
-            result = result + (char)('a' + rnd.nextInt(26));
-        }
-        return result;
+        Supplier<Integer> randomNumbers = () -> rnd.nextInt(26);
+        return Stream.generate(randomNumbers)
+                .limit(n)
+                .map(i -> 'a' + i)
+                .map(i -> Character.toString(i))
+                .collect(Collectors.joining());
     }
 
     // метод находит случайный файл в указанной директории и возвращает его полный путь в виде строки

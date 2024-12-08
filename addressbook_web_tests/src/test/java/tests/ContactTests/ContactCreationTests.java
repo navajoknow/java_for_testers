@@ -121,16 +121,19 @@ public class ContactCreationTests extends TestBase {
 
     @Test
     public void canCreateContactInGroup() {
-        var contact = new ContactData()
-                .withFirstName(CommonFunctions.randomString(10))
-                .withLastName(CommonFunctions.randomString(10))
-                .withPhoto(CommonFunctions.randomFile("src/test/resources/images"));
-
         if (app.hbm().getGroupCount() == 0) {
             app.hbm().createGroup(new GroupData("","name", "header","footer"));
         }
 
+        if (app.hbm().getContactCount() == 0) {
+            app.hbm().createContact(new ContactData()
+                    .withFirstName(CommonFunctions.randomString(10))
+                    .withLastName(CommonFunctions.randomString(10))
+                    .withPhoto(CommonFunctions.randomFile("src/test/resources/images")));
+        }
+
         var group = app.hbm().getGroupList().get(0);
+        var contact = app.hbm().getContactList().get(0);
 
         var previousContactListInGroup = app.hbm().getContactsInGroup(group);
         app.contacts().createContactInGroup(contact, group);
@@ -148,6 +151,41 @@ public class ContactCreationTests extends TestBase {
         var testPhoto = expectedList.get(expectedList.size()-1).photo();
         var newContactWithSamePhoto = newContactListInGroup.get(expectedList.size()-1).withPhoto(testPhoto);
         newContactListInGroup.set(newContactListInGroup.size()-1, newContactWithSamePhoto);
+        Assertions.assertEquals(expectedList, newContactListInGroup);
+    }
+
+    @Test
+    public void canPutContactInGroup() {
+        // создаем группу, если не существует, и получаем ссылку на нее
+        if (app.hbm().getGroupCount() == 0) {
+            app.hbm().createGroup(new GroupData("","name", "header","footer"));
+        }
+        var group = app.hbm().getGroupList().get(0);
+
+        // создаем новый контакт через БД и получаем ссылку на него
+        app.hbm().createContact(new ContactData()
+                .withFirstName(CommonFunctions.randomString(10))
+                .withLastName(CommonFunctions.randomString(10))
+                .withPhoto(CommonFunctions.randomFile("src/test/resources/images")));
+
+        var contactList = app.hbm().getContactList();
+        Comparator<ContactData> compareById = (o1, o2) -> {
+            return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
+        };
+        contactList.sort(compareById);
+        var contact = contactList.get(contactList.size()-1);
+
+        // проверяем какие контакты сейчас находятся в группе, добавляем в нее созданный контакт,
+        // запоминаем новое состояние группы
+        var previousContactListInGroup = app.hbm().getContactsInGroup(group);
+        app.contacts().putContactToGroup(contact, group);
+        var newContactListInGroup = app.hbm().getContactsInGroup(group);
+
+        // формирируем ожидаемый список контактов и сравниваем
+        var expectedList = new ArrayList<>(previousContactListInGroup);
+        newContactListInGroup.sort(compareById);
+        expectedList.add(newContactListInGroup.get(newContactListInGroup.size()-1));
+        expectedList.sort(compareById);
         Assertions.assertEquals(expectedList, newContactListInGroup);
     }
 
