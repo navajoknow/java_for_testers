@@ -31,40 +31,43 @@ public class ContactRecord {
     // которая существует в памяти; в базе данных будет храниться строка, но без содержания
 
     @Column(name = "nickname")
-    public String nickname = "";
+    public String nickname;
 
     @Column(name = "company")
-    public String company = "";
+    public String company;
 
     @Column(name = "title")
-    public String title = "";
+    public String title;
 
     @Column(name = "address")
-    public String address = "";
+    public String address;
 
     @Column(name = "home")
-    public String home = "";
+    public String home;
 
     @Column(name = "mobile")
-    public String mobile = "";
+    public String mobile;
 
     @Column(name = "work")
-    public String work = "";
+    public String work;
+
+    @Column(name = "phone2")
+    public String phone2;
 
     @Column(name = "fax")
-    public String fax = "";
+    public String fax;
 
     @Column(name = "email")
-    public String email = "";
+    public String email;
 
     @Column(name = "email2")
-    public String email2 = "";
+    public String email2;
 
     @Column(name = "email3")
-    public String email3 = "";
+    public String email3;
 
     @Column(name = "homepage")
-    public String homepage = "";
+    public String homepage;
 
 
     public ContactRecord() {

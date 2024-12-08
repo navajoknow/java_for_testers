@@ -8,8 +8,8 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AvailableSettings;
 import org.hibernate.cfg.Configuration;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class HibernateHelper extends HelperBase {
 
@@ -27,26 +27,44 @@ public class HibernateHelper extends HelperBase {
     }
 
     // метод для переноса данных из списка GroupRecord в список GroupData
+//    static List<GroupData> convertGroupList(List<GroupRecord> records) {
+//        List<GroupData> result = new ArrayList<>();
+//        for (var record : records) {
+//            // из базы забираем id с типом int, а в GroupData это String, поэтому нужно строковое представление
+//            result.add(convertToGroupData(record));
+//        }
+//        return result;
+//    }
+
+    // этот же метод, написанный в стиле функционального программирования
     static List<GroupData> convertGroupList(List<GroupRecord> records) {
-        List<GroupData> result = new ArrayList<>();
-        for (var record : records) {
-            // из базы забираем id с типом int, а в GroupData это String, поэтому нужно строковое представление
-            result.add(convertToGroupData(record));
-        }
-        return result;
+        return records.stream()
+                .map(HibernateHelper::convertToGroupData)
+                .collect(Collectors.toList());
     }
 
-    // аналогичный метод для Contact
+    private static GroupData convertToGroupData(GroupRecord record) {
+        return new GroupData("" + record.id, record.name, record.header, record.footer);
+    }
+
+    // метод для Contact
     static List<ContactData> convertContactList(List<ContactRecord> records) {
-        List<ContactData> result = new ArrayList<>();
-        for (var record : records) {
-            result.add(convertToContactData(record));
-        }
-        return result;
+        return records.stream()
+                .map(HibernateHelper::convertToContactData)
+                .collect(Collectors.toList());
     }
 
     private static ContactData convertToContactData(ContactRecord record) {
-        return new ContactData("" + record.id, record.first_name, record.middle_name, record.last_name, record.photo);
+        return new ContactData(
+                "" + record.id,
+                record.first_name,
+                record.middle_name,
+                record.last_name,
+                record.photo,
+                record.home,
+                record.mobile,
+                record.work,
+                record.phone2);
     }
 
     private static ContactRecord convertToContactRecord(ContactData data) {
@@ -57,9 +75,6 @@ public class HibernateHelper extends HelperBase {
         return new ContactRecord(Integer.parseInt(id), data.first_name(), data.middle_name(), data.last_name(), data.photo());
     }
 
-    private static GroupData convertToGroupData(GroupRecord record) {
-        return new GroupData("" + record.id, record.name, record.header, record.footer);
-    }
 
     private static GroupRecord convertToGroupRecord(GroupData data) {
         var id = data.id();

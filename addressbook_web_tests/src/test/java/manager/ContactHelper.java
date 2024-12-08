@@ -2,10 +2,13 @@ package manager;
 import models.ContactData;
 import models.GroupData;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ContactHelper extends HelperBase {
 
@@ -142,6 +145,24 @@ public class ContactHelper extends HelperBase {
 
     private void initContactModification(ContactData contact) {
         click(By.cssSelector(String.format("a[href='edit.php?id=%s']", contact.id())));
+    }
+
+    public String getContactPhones(ContactData contact) {
+        return manager.driver.findElement(By.xpath(
+                // в xpath /../ это подъем на один уровень вверх
+                // в данном случае поднимаемся на 2 уровня вверх и находим в ряду ячейку по заданному id
+                String.format("//input[@id='%s']/../../td[6]", contact.id()))).getText();
+    }
+
+    public Map<String, String> getAllContactsPhones() {
+        var result = new HashMap<String, String>();
+        var rows = manager.driver.findElements(By.name("entry"));
+        for (WebElement row : rows) {
+            var id = row.findElement(By.tagName("input")).getAttribute("id");
+            var phones = row.findElements(By.tagName("td")).get(5).getText();
+            result.put(id, phones);
+        }
+        return result;
     }
 
 }

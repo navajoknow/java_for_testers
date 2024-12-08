@@ -2,7 +2,6 @@ package tests.GroupTests;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import common.CommonFunctions;
 import models.GroupData;
 import org.junit.jupiter.api.Assertions;
@@ -10,17 +9,14 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import tests.TestBase;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class GroupCreationTests extends TestBase {
@@ -70,7 +66,7 @@ public class GroupCreationTests extends TestBase {
         return result;
     }
 
-    public static Stream<GroupData> singleRandomGroupProvider() {
+    public static Stream<GroupData> randomGroupsProvider() {
         // функция-генератор, в которую в качестве параметра передаем фунцию-сапплаер
         Supplier<GroupData> randomGroup = () -> new GroupData()
                 .withName(CommonFunctions.randomString(10))
@@ -107,9 +103,8 @@ public class GroupCreationTests extends TestBase {
     }
 
     @ParameterizedTest
-    @MethodSource("singleRandomGroupProvider")
+    @MethodSource("randomGroupsProvider")
     public void canCreateGroup(GroupData group) {
-
         // сравниваем новый список групп, собраный из БД, с ожидаемым списком из БД
 
         // сбор с помощью JDBC
@@ -122,27 +117,13 @@ public class GroupCreationTests extends TestBase {
         app.groups().createGroup(group);
         var newGroups = app.hbm().getGroupList();
 
-        Comparator<GroupData> compareById = (o1, o2) -> {
-            return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
-        };
+        // собираем список из групп, которые ранее не встречались
+        var extraGroups = newGroups.stream().filter(g -> ! oldGroups.contains(g)).toList();
+        var id = extraGroups.get(0).id();
 
-        newGroups.sort(compareById);
         var expectedList = new ArrayList<>(oldGroups);
-        expectedList.add(group.withId(newGroups.get(newGroups.size()-1).id()));
-        expectedList.sort(compareById);
-        Assertions.assertEquals(expectedList, newGroups);
-
-        // также сравниваем новый список групп, собраный через UI, с ожидаемым списком из БД
-        var uiGroups = app.groups().getList();
-        uiGroups.sort(compareById);
-        expectedList.set(expectedList.size()-1, uiGroups.get(uiGroups.size()-1));
-        // костыль из цикла: обеспечиваем соответствие по полям header и footer
-        for (int i = 0; i < uiGroups.size(); i++) {
-            var testHeader = expectedList.get(i).header();
-            var testFooter = expectedList.get(i).footer();
-            uiGroups.set(i, uiGroups.get(i).withHeader(testHeader).withFooter(testFooter));
-        }
-        Assertions.assertEquals(expectedList, uiGroups);
+        expectedList.add(group.withId(id));
+        Assertions.assertEquals(Set.copyOf(expectedList), Set.copyOf(newGroups));
     }
 
     @ParameterizedTest

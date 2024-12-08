@@ -26,8 +26,10 @@ public class CommonFunctions {
         Supplier<Integer> randomNumbers = () -> rnd.nextInt(26);
         return Stream.generate(randomNumbers)
                 .limit(n)
+                // функция-трансформатор
                 .map(i -> 'a' + i)
                 .map(i -> Character.toString(i))
+                // собираем строки из 1 символа в одну строку
                 .collect(Collectors.joining());
     }
 

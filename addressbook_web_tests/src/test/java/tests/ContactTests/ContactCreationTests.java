@@ -155,8 +155,8 @@ public class ContactCreationTests extends TestBase {
     }
 
     @Test
-    public void canPutContactInGroup() {
-        // создаем группу, если не существует, и получаем ссылку на нее
+    public void canPutContactToGroup() {
+        // создаем группу (если не существует) и получаем ссылку на нее
         if (app.hbm().getGroupCount() == 0) {
             app.hbm().createGroup(new GroupData("","name", "header","footer"));
         }
@@ -167,7 +167,6 @@ public class ContactCreationTests extends TestBase {
                 .withFirstName(CommonFunctions.randomString(10))
                 .withLastName(CommonFunctions.randomString(10))
                 .withPhoto(CommonFunctions.randomFile("src/test/resources/images")));
-
         var contactList = app.hbm().getContactList();
         Comparator<ContactData> compareById = (o1, o2) -> {
             return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));
