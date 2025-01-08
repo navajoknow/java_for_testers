@@ -12,6 +12,8 @@ public class ApplicationManager {
 
     //ссылки на помощников
     private SessionHelper session;
+    private HttpSessionHelper httpSession;
+    private JamesCliHelper jamesCli;
 
     public void init(String browser, Properties properties) {
         this.string = browser;
@@ -40,6 +42,23 @@ public class ApplicationManager {
             session = new SessionHelper(this);
         }
         return session;
+    }
+
+    public HttpSessionHelper httpSession() {
+        if (httpSession == null) {
+            httpSession = new HttpSessionHelper(this);
+        }
+        return httpSession;
+    }
+    public String property(String name) {
+        return properties.getProperty(name);
+    }
+
+    public JamesCliHelper jamesCli() {
+        if (jamesCli == null) {
+            jamesCli = new JamesCliHelper(this);
+        }
+        return jamesCli;
     }
 
 }

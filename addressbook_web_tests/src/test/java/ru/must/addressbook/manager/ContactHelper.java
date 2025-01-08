@@ -15,6 +15,7 @@ import java.util.stream.Stream;
 public class ContactHelper extends HelperBase {
 
     public ContactHelper(ApplicationManager manager) {
+        // передача параметра конструктору родительского класса
         super(manager);
     }
 

@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 public class GroupHelper extends HelperBase {
 
     public GroupHelper(ApplicationManager manager) {
-        // класс-помощник использует родительский -HelperBase- конструктор как свой собственный
+        // передача параметра конструктору родительского класса
         super(manager);
     }
 
