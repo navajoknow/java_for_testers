@@ -8,6 +8,7 @@ import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
+import java.util.regex.Pattern;
 
 public class MailHelper extends HelperBase {
 
@@ -15,11 +16,11 @@ public class MailHelper extends HelperBase {
         super(manager);
     }
 
-    public List<MailMessage> receive(String username, String password, Duration duration) {
+    public List<MailMessage> receive(String email, String password, Duration duration) {
         var start = System.currentTimeMillis();
         while (System.currentTimeMillis() < start + duration.toMillis()) {
             try {
-                var inbox = getInbox(username, password);
+                var inbox = getInbox(email, password);
                 inbox.open(Folder.READ_ONLY);
                 var messages = inbox.getMessages();
                 var result = Arrays.stream(messages)
@@ -80,4 +81,14 @@ public class MailHelper extends HelperBase {
         }
     }
 
+    public String extractURL(List<MailMessage> messages) {
+        var text = messages.get(0).content();
+        var pattern = Pattern.compile("http://\\S*");
+        var matcher = pattern.matcher(text);
+        String url = "URL is absent";
+        if (matcher.find()) {
+            url = text.substring(matcher.start(), matcher.end());
+        }
+        return url;
+    }
 }

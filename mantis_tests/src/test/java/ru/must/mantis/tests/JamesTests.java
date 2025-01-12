@@ -9,6 +9,6 @@ public class JamesTests extends TestBase {
 
     @Test
     void canCreateUser() {
-        app.jamesCli().addUser(String.format("%s@localhost", randomString(10)), "password");
+        app.jamesCliHelper().addUser(String.format("%s@localhost", randomString(10)), "password");
     }
 }

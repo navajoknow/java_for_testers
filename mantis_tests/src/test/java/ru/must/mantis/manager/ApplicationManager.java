@@ -11,10 +11,11 @@ public class ApplicationManager {
     private Properties properties;
 
     //ссылки на помощников
-    private SessionHelper session;
-    private HttpSessionHelper httpSession;
-    private JamesCliHelper jamesCli;
-    private MailHelper email;
+    private SignupHelper signupHelper;
+    private SessionHelper sessionHelper;
+    private HttpSessionHelper httpSessionHelper;
+    private JamesCliHelper jamesCliHelper;
+    private MailHelper mailHelper;
 
     public void init(String browser, Properties properties) {
         this.string = browser;
@@ -38,35 +39,42 @@ public class ApplicationManager {
         return driver;
     }
 
-    public SessionHelper session() {
-        if (session == null) {
-            session = new SessionHelper(this);
+    public SignupHelper signupHelper() {
+        if (signupHelper == null) {
+            signupHelper = new SignupHelper(this);
         }
-        return session;
+        return signupHelper;
     }
 
-    public HttpSessionHelper httpSession() {
-        if (httpSession == null) {
-            httpSession = new HttpSessionHelper(this);
+    public SessionHelper sessionHelper() {
+        if (sessionHelper == null) {
+            sessionHelper = new SessionHelper(this);
         }
-        return httpSession;
+        return sessionHelper;
+    }
+
+    public HttpSessionHelper httpSessionHelper() {
+        if (httpSessionHelper == null) {
+            httpSessionHelper = new HttpSessionHelper(this);
+        }
+        return httpSessionHelper;
     }
     public String property(String name) {
         return properties.getProperty(name);
     }
 
-    public JamesCliHelper jamesCli() {
-        if (jamesCli == null) {
-            jamesCli = new JamesCliHelper(this);
+    public JamesCliHelper jamesCliHelper() {
+        if (jamesCliHelper == null) {
+            jamesCliHelper = new JamesCliHelper(this);
         }
-        return jamesCli;
+        return jamesCliHelper;
     }
 
-    public MailHelper email() {
-        if (email == null) {
-            email = new MailHelper(this);
+    public MailHelper mailHelper() {
+        if (mailHelper == null) {
+            mailHelper = new MailHelper(this);
         }
-        return email;
+        return mailHelper;
     }
 
 }
