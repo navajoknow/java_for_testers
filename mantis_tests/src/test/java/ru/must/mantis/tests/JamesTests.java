@@ -2,7 +2,6 @@ package ru.must.mantis.tests;
 
 import org.junit.jupiter.api.Test;
 
-import static java.lang.String.format;
 import static ru.must.mantis.common.CommonFunctions.randomString;
 
 public class JamesTests extends TestBase {
