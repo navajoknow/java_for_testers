@@ -93,10 +93,24 @@ public class Generator {
           private Object generateContacts() {
               return generateData(() -> new ContactData()
                       .withFirstName(CommonFunctions.randomString(10))
+                      .withMiddleName(CommonFunctions.randomString(10))
                       .withLastName(CommonFunctions.randomString(10))
-                      .withPhoto(CommonFunctions.randomFile("src/test/resources/images")));
+                      .withNickname(CommonFunctions.randomString(10))
+                      .withPhoto(CommonFunctions.randomFile("src/test/resources/images"))
+                      .withTitle(CommonFunctions.randomString(10))
+                      .withHome(CommonFunctions.randomString(10))
+                      .withMobile(CommonFunctions.randomString(10))
+                      .withWork(CommonFunctions.randomString(10))
+                      .withPhone2(CommonFunctions.randomString(10))
+                      .withAddress(CommonFunctions.randomString(10))
+                      .withCompany(CommonFunctions.randomString(10))
+                      .withFax(CommonFunctions.randomString(10))
+                      .withEmail(CommonFunctions.randomString(10))
+                      .withEmail2(CommonFunctions.randomString(10))
+                      .withEmail3(CommonFunctions.randomString(10))
+                      .withHomepage(CommonFunctions.randomString(10))
+              );
       }
-    //
 
     private void save(Object data) throws IOException {
         if ("json".equals(format)) {

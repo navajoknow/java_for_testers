@@ -26,7 +26,7 @@ public class ContactRecord {
     public String photo;
 
     // далее добавляем поля, которые требуются для создания записи в таблице БД
-    // (соответствующие атрибуты не могут быть null и не имеют значения по умолчанию)
+    // (соответствующие атрибуты в БД не могут быть null и не имеют значения по умолчанию)
     // ВАЖНО: пустая строка ("") — это не то же самое, что null, это именно строка длиной 0 символов,
     // которая существует в памяти; в базе данных будет храниться строка, но без содержания
 
@@ -69,7 +69,6 @@ public class ContactRecord {
     @Column(name = "homepage")
     public String homepage;
 
-
     public ContactRecord() {
     }
 
@@ -78,11 +77,37 @@ public class ContactRecord {
             String first_name,
             String middle_name,
             String last_name,
-            String photo) {
+            String nickname,
+            String photo,
+            String title,
+            String address,
+            String company,
+            String home,
+            String mobile,
+            String phone2,
+            String work,
+            String fax,
+            String email,
+            String email2,
+            String email3,
+            String homepage) {
         this.id = id;
         this.first_name = first_name;
         this.middle_name = middle_name;
         this.last_name = last_name;
+        this.nickname = nickname;
         this.photo = photo;
+        this.title = title;
+        this.address = address;
+        this.company = company;
+        this.home = home;
+        this.mobile = mobile;
+        this.phone2 = phone2;
+        this.work = work;
+        this.fax = fax;
+        this.email = email;
+        this.email2 = email2;
+        this.email3 = email3;
+        this.homepage = homepage;
     }
 }

@@ -26,7 +26,7 @@ public class ContactHelper extends HelperBase {
     public void createContact(ContactData contact) {
         addNewContact();
         fillContactForm(contact);
-        attachPhoto(contact);
+//      attachPhoto(contact);
         submitCreation();
         goToHomePage();
     }
@@ -34,7 +34,7 @@ public class ContactHelper extends HelperBase {
     public void createContactInGroup(ContactData contact, GroupData group) {
         addNewContact();
         fillContactForm(contact);
-        attachPhoto(contact);
+//      attachPhoto(contact);
         selectGroup(group);
         submitCreation();
         goToHomePage();

@@ -60,11 +60,20 @@ public class HibernateHelper extends HelperBase {
                 record.first_name,
                 record.middle_name,
                 record.last_name,
+                record.nickname,
                 record.photo,
+                record.title,
                 record.home,
                 record.mobile,
                 record.work,
-                record.phone2);
+                record.phone2,
+                record.address,
+                record.company,
+                record.fax,
+                record.email,
+                record.email2,
+                record.email3,
+                record.homepage);
     }
 
     private static ContactRecord convertToContactRecord(ContactData data) {
@@ -72,9 +81,27 @@ public class HibernateHelper extends HelperBase {
         if ("".equals(id)) {
             id = "0";
         }
-        return new ContactRecord(Integer.parseInt(id), data.first_name(), data.middle_name(), data.last_name(), data.photo());
+        return new ContactRecord(
+                Integer.parseInt(id),
+                data.first_name(),
+                data.middle_name(),
+                data.last_name(),
+                data.nickname(),
+                data.photo(),
+                data.title(),
+                data.address(),
+                data.company(),
+                data.home(),
+                data.mobile(),
+                data.phone2(),
+                data.work(),
+                data.fax(),
+                data.email(),
+                data.email2(),
+                data.email3(),
+                data.homepage()
+                );
     }
-
 
     private static GroupRecord convertToGroupRecord(GroupData data) {
         var id = data.id();
